@@ -1,0 +1,76 @@
+{% extends 'trip/base.html' %}
+
+{% block content %}
+    <h4>Hello {{user.first_name}}! Let's edit your trip!</h4>
+    <div>
+        <form action="{% url 'tripUpdate' trip.id %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.extra_tags == "destination" %}
+                            <p class="error_message">{{message}}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <input type="text" class="form-control" name="destination" value="{{trip.destination}}">
+            </div>
+            <div class="form-group">
+                <label for="start_date">Start Date:</label>
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.extra_tags == "start_date" %}
+                            <p class="error_message">{{message}}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <input type="text" class="form-control" id="start_date" readonly name="start_date" value="{{trip.start_date | date:'Y-m-d'}}">
+            </div>
+            <div class="form-group">
+                <label for="end_date">End Date:</label>
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.extra_tags == "end_date" %}
+                            <p class="error_message">{{message}}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <input type="text" class="form-control" id="end_date" readonly name="end_date" value="{{trip.end_date | date:'Y-m-d'}}">
+            </div>
+            <div class="form-group">
+                <label for="plan">Plan:</label>
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.extra_tags == "plan" %}
+                            <p class="error_message">{{message}}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <textarea name="plan" id="" cols="30" rows="5" class="form-control">{{trip.plan}}</textarea>                
+            </div>
+            <input type="submit" class="btn btn-primary" name="cancel" value="Cancel">
+            <input type="submit" class="btn btn-primary" name="submit" value="Update">
+        </form>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $("#start_date").datepicker({
+                numberOfMonths: 1,
+                minDate: 0,
+                dateFormat: 'yy-mm-dd',
+                onSelect: function(selected) {
+                $("#end_date").datepicker("option","minDate", selected)
+                }
+            });
+
+            $("#end_date").datepicker({
+                numberOfMonths: 1,
+                dateFormat: 'yy-mm-dd',
+                onSelect: function(selected) {
+                $("#start_date").datepicker("option","maxDate", selected)
+                }
+            }); 
+        }); 
+    </script>
+{% endblock content %}

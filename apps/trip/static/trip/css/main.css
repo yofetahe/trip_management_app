@@ -1,0 +1,36 @@
+
+.dashboard_header{
+    padding: 25px 0px;
+}
+.dashboard_header h5{
+    display: inline-block;
+    width: 49.5%;
+}
+
+.dashboard_header div.create_new_trip_link{
+    display: inline-block;
+    text-align: right;
+    width: 49.5%;
+}
+.other_ppl_trip{
+    padding-top: 30px;
+}
+div.container form{
+    width: 40%;
+}
+div.trip_detail_info{
+    border: 2px solid black;
+    padding: 15px;
+    border-radius: 5px;
+    width:40%; 
+    margin-bottom: 25px;
+}
+div.join_people{    
+    border: 2px solid rgb(136, 129, 241);
+    padding: 15px;
+    border-radius: 5px;
+    width:40%; 
+}
+.error_message{
+    color: red;
+}

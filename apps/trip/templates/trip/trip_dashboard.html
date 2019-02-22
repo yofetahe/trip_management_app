@@ -1,0 +1,78 @@
+{% extends 'trip/base.html' %}
+
+{% block content %}
+    <div class="dashboard_header">
+        <h5>Your Trips</h5>
+        <div class="create_new_trip_link">
+            <a href="{% url 'get_create_form' %}" class="btn btn-primary">Create a new trip!</a>
+        </div>
+    </div>
+
+    <div>
+        <table id="trips_list" width="100%" class="table table-striped table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Destination</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Plan</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trip in trips %}
+                    <tr>
+                        <td> <a href="{% url 'get_trip_detail' trip.id  %}"> {{trip.destination}} </a> </td>
+                        <td>{{trip.start_date | date:'Y-d-m'}}</td>
+                        <td>{{trip.end_date | date:'Y-d-m'}}</td>
+                        <td>{{trip.plan}}</td>
+                        <td>
+                            {% if request.session.user_id == trip.user_created_by.id %}
+                                <a href="{% url 'remove_trip' trip.id %}">Remove</a>&nbsp;|&nbsp;<a href="{% url 'get_update_form' trip.id  %}">Edit</a>
+                            {% else %}
+                                <a href="{% url 'cancel_join' trip.id %}">Cancel</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="other_ppl_trip">
+        <p><b> Other people's trips </b></p>
+        <table id="other_trips_list" width="100%" class="table table-striped table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Destination</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Plan</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trip in other_trips %}
+                    <tr>
+                        <td> <a href="{% url 'get_trip_detail' trip.id  %}"> {{trip.destination}} </a> </td>
+                        <td>{{trip.start_date | date:'Y-d-m'}}</td>
+                        <td>{{trip.end_date | date:'Y-d-m'}}</td>
+                        <td>{{trip.plan}}</td>
+                        <td><a href="{% url 'join_trip' trip.id %}">Join</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <script>        
+        $(document).ready(function(){
+            $('#trips_list').DataTable({
+               "pagingType" : "first_last_numbers"
+            });
+            $('#other_trips_list').DataTable({
+               "pagingType" : "first_last_numbers"
+            });
+        });
+    </script>
+{% endblock content %}

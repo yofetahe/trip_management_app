@@ -1,0 +1,25 @@
+{% extends 'trip/base.html' %}
+
+{% block content %}
+    <h4>Hello {{user.first_name}}! Read about this trip!</h4>
+    <p><b>{{trip.destination}}</b></p>
+    <div class="trip_detail_info">
+        <p>Start Date: {{trip.start_date}}</p>
+        <p>End Date: {{trip.end_date}}</p>
+        <p>Created On: {{trip.created_at}}</p>
+        <p>Last Updated: {{trip.updated_at}}</p>
+        <p>Plan: {{trip.plan}}</p>
+        <p>Created by: {{trip.user_created_by.first_name}}</p>
+    </div>
+    <br>
+    <p><b> People who've join the trip</b></p>
+    <div class="join_people">
+        {% if trip.user_join.all %}
+            {% for user in trip.user_join.all %}                
+                <p>{{user.first_name}} {{user.last_name}}</p>
+            {% endfor %}
+        {% else %}
+            <p>There is not people join this trip!</p>
+        {% endif %}
+    </div>
+{% endblock content %}
